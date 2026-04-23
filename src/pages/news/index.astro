@@ -1,0 +1,99 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const news = (await getCollection("news")).sort(
+  (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
+);
+---
+
+<BaseLayout title="Club News | Kangas Community Basketball Club" description="News, updates, and announcements from Kangas Community Basketball Club.">
+  <section class="news-header">
+    <span class="eyebrow">Newsroom</span>
+    <h1>Club news, fixtures, and community updates.</h1>
+    <p>
+      Every story on this page comes from Markdown content in the repository, making it easy to update through Git or
+      Pages CMS.
+    </p>
+  </section>
+
+  <section class="news-list">
+    {news.map((entry) => (
+      <article class="news-card panel">
+        <div class="news-meta">
+          <span>{entry.data.category}</span>
+          <time datetime={entry.data.publishDate.toISOString()}>
+            {entry.data.publishDate.toLocaleDateString("en-AU", {
+              day: "numeric",
+              month: "long",
+              year: "numeric"
+            })}
+          </time>
+        </div>
+        <h2>
+          <a href={`/news/${entry.slug}/`}>{entry.data.title}</a>
+        </h2>
+        <p>{entry.data.excerpt}</p>
+        <small>By {entry.data.author}</small>
+      </article>
+    ))}
+  </section>
+</BaseLayout>
+
+<style>
+  .news-header {
+    padding: 2rem 0 1rem;
+  }
+
+  .news-header h1 {
+    margin: 1rem 0 0.75rem;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  .news-header p {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .news-list {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .news-card {
+    padding: 1.5rem;
+  }
+
+  .news-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--accent-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    font-weight: 800;
+  }
+
+  .news-card h2 {
+    margin: 0.8rem 0;
+    font-size: 1.7rem;
+  }
+
+  .news-card p,
+  .news-card small {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 720px) {
+    .news-meta {
+      flex-direction: column;
+    }
+  }
+</style>

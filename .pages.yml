@@ -1,0 +1,146 @@
+media:
+  input: public/uploads
+  output: /uploads
+
+content:
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/content/pages
+    filename:
+      template: "{primary}.md"
+      field: false
+    format: yaml-frontmatter
+    view:
+      primary: title
+      fields: [title]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: metaTitle
+        label: Meta title
+        type: string
+      - name: metaDescription
+        label: Meta description
+        type: text
+        required: true
+      - name: hero
+        label: Hero
+        type: object
+        fields:
+          - name: eyebrow
+            label: Eyebrow
+            type: string
+          - name: headline
+            label: Headline
+            type: string
+          - name: subheadline
+            label: Subheadline
+            type: text
+          - name: primaryCtaLabel
+            label: Primary CTA label
+            type: string
+          - name: primaryCtaHref
+            label: Primary CTA link
+            type: string
+          - name: secondaryCtaLabel
+            label: Secondary CTA label
+            type: string
+          - name: secondaryCtaHref
+            label: Secondary CTA link
+            type: string
+          - name: stats
+            label: Hero stats
+            type: object
+            list: true
+            fields:
+              - name: value
+                label: Value
+                type: string
+              - name: label
+                label: Label
+                type: string
+      - name: highlights
+        label: Highlights
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: copy
+            label: Copy
+            type: text
+      - name: programs
+        label: Programs
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Name
+            type: string
+          - name: audience
+            label: Audience
+            type: string
+          - name: schedule
+            label: Schedule
+            type: string
+          - name: summary
+            label: Summary
+            type: text
+      - name: body
+        label: Body
+        type: rich-text
+
+  - name: news
+    label: News
+    type: collection
+    path: src/content/news
+    filename:
+      template: "{year}-{month}-{day}-{primary}.md"
+      field: create
+    format: yaml-frontmatter
+    subfolders: false
+    view:
+      primary: title
+      fields: [title, category, publishDate, author]
+      sort: [publishDate, title]
+      search: [title, excerpt, author, category]
+      default:
+        sort: publishDate
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: excerpt
+        label: Excerpt
+        type: text
+        required: true
+      - name: publishDate
+        label: Publish date
+        type: date
+        required: true
+      - name: author
+        label: Author
+        type: string
+        required: true
+      - name: category
+        label: Category
+        type: select
+        options:
+          values: [Club News, Game Report, Community, Registration]
+      - name: featured
+        label: Featured on home page
+        type: boolean
+      - name: body
+        label: Story
+        type: rich-text
+
+settings:
+  hide: true
+  content:
+    merge: true

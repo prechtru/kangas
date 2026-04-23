@@ -1,0 +1,222 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="brand" href="/">Kangas Basketball Club</a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/news">News</a>
+        </nav>
+      </header>
+      <main>
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <p>Kangas Community Basketball Club</p>
+        <p>Built with Astro, Markdown content collections, and Pages CMS.</p>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #f5f0e8;
+    --surface: rgba(255, 252, 247, 0.82);
+    --surface-strong: #fffaf2;
+    --text: #112033;
+    --muted: #526174;
+    --line: rgba(17, 32, 51, 0.12);
+    --accent: #dc5f2d;
+    --accent-deep: #8f2d14;
+    --accent-soft: #ffd9bf;
+    --ink-soft: #183b63;
+    --shadow: 0 24px 60px rgba(17, 32, 51, 0.12);
+    --radius: 24px;
+    --radius-sm: 16px;
+    --content-width: 1120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(220, 95, 45, 0.16), transparent 28%),
+      radial-gradient(circle at top right, rgba(24, 59, 99, 0.14), transparent 24%),
+      linear-gradient(180deg, #f8f3ec 0%, #f0e7db 100%);
+    color: var(--text);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  .site-shell {
+    width: min(calc(100% - 2rem), var(--content-width));
+    margin: 0 auto;
+    padding: 1rem 0 3rem;
+  }
+
+  .site-header,
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 1rem;
+    z-index: 10;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 250, 242, 0.86);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow);
+  }
+
+  .brand {
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: 1rem;
+    color: var(--muted);
+  }
+
+  .site-nav a:hover,
+  .site-nav a:focus-visible,
+  .brand:hover,
+  .brand:focus-visible {
+    color: var(--accent-deep);
+  }
+
+  .site-footer {
+    margin-top: 4rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    transition:
+      transform 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .button:hover,
+  .button:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .button-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 18px 30px rgba(220, 95, 45, 0.22);
+  }
+
+  .button-secondary {
+    border-color: var(--line);
+    background: rgba(255, 255, 255, 0.52);
+    color: var(--ink-soft);
+  }
+
+  .section-title {
+    margin: 0 0 0.8rem;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    line-height: 1.05;
+  }
+
+  .section-copy {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  @media (max-width: 720px) {
+    .site-header,
+    .site-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .site-header {
+      border-radius: 28px;
+    }
+  }
+</style>
