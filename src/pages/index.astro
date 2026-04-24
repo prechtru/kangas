@@ -1,6 +1,7 @@
 ---
 import { getEntry, getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../lib/withBase";
 
 const home = await getEntry("pages", "home");
 
@@ -25,8 +26,8 @@ const { hero, highlights, programs } = home.data;
       <h1>{hero.headline}</h1>
       <p>{hero.subheadline}</p>
       <div class="button-row">
-        <a class="button button-primary" href={hero.primaryCtaHref}>{hero.primaryCtaLabel}</a>
-        <a class="button button-secondary" href={hero.secondaryCtaHref}>{hero.secondaryCtaLabel}</a>
+        <a class="button button-primary" href={withBase(hero.primaryCtaHref)}>{hero.primaryCtaLabel}</a>
+        <a class="button button-secondary" href={withBase(hero.secondaryCtaHref)}>{hero.secondaryCtaLabel}</a>
       </div>
     </div>
 
@@ -57,7 +58,7 @@ const { hero, highlights, programs } = home.data;
       <h2 class="section-title">What’s happening around the club.</h2>
       <div class="news-stack">
         {featuredNews.map((entry) => (
-          <a class="news-teaser" href={`/news/${entry.slug}/`}>
+          <a class="news-teaser" href={withBase(`/news/${entry.slug}/`)}>
             <span>{entry.data.category}</span>
             <strong>{entry.data.title}</strong>
             <p>{entry.data.excerpt}</p>

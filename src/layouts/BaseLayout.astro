@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/withBase";
+
 interface Props {
   title: string;
   description: string;
@@ -18,10 +20,10 @@ const { title, description } = Astro.props;
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="/">Kangas Basketball Club</a>
+        <a class="brand" href={withBase("/")}>Kangas Basketball Club</a>
         <nav class="site-nav" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/news">News</a>
+          <a href={withBase("/")}>Home</a>
+          <a href={withBase("/news/")}>News</a>
         </nav>
       </header>
       <main>

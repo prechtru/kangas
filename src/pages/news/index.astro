@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/withBase";
 
 const news = (await getCollection("news")).sort(
   (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime()
@@ -31,7 +32,7 @@ const news = (await getCollection("news")).sort(
           </time>
         </div>
         <h2>
-          <a href={`/news/${entry.slug}/`}>{entry.data.title}</a>
+          <a href={withBase(`/news/${entry.slug}/`)}>{entry.data.title}</a>
         </h2>
         <p>{entry.data.excerpt}</p>
         <small>By {entry.data.author}</small>
