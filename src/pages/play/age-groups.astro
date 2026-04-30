@@ -1,0 +1,23 @@
+---
+import { getEntry } from "astro:content";
+import AgeGroups from "../../components/AgeGroups.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const ageGroups = await getEntry("age-groups", "winter-2026");
+
+if (!ageGroups) {
+  throw new Error("Missing age groups content entry.");
+}
+---
+
+<BaseLayout title="Age Groups | Nunawading Kangas" description="Winter season age groups and date of birth ranges for Nunawading Kangas players.">
+  <div class="hero-gradient-surface min-h-screen">
+    <PageHeader
+      eyebrow={ageGroups.data.seasonLabel}
+      title={ageGroups.data.title}
+      summary="Review the date of birth ranges for each junior age group before registering for the season."
+    />
+    <AgeGroups {...ageGroups.data} />
+  </div>
+</BaseLayout>

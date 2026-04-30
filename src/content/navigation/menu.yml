@@ -1,0 +1,51 @@
+brand:
+  label: NUNAWADING KANGAS
+  href: /
+items:
+  - label: Home
+    href: /
+    kicker: Main
+  - label: Play for Kangas
+    href: /play
+    kicker: Players
+    children:
+      - label: Registration
+        href: /play/registration
+      - label: Fees & Uniforms
+        href: /play/fees-uniforms
+      - label: Age Groups
+        href: /play/age-groups
+      - label: Game Days & Times
+        href: /play/schedules
+      - label: Training Info
+        href: /play/training
+  - label: Club Info
+    href: /club
+    kicker: Community
+    children:
+      - label: About the Club
+        href: /club/about
+      - label: Committee
+        href: /club/committee
+      - label: Policies
+        href: /club/policies
+  - label: Get Involved
+    href: /get-involved
+    kicker: Support
+    children:
+      - label: Coaching
+        href: /get-involved/coaching
+      - label: Team Manager
+        href: /get-involved/team-manager
+      - label: Sponsorship
+        href: /get-involved/sponsorship
+  - label: Contact
+    href: /contact
+    kicker: Talk to us
+    children:
+      - label: General Enquiry
+        href: /contact/general
+      - label: Registrations
+        href: /contact/registrations
+      - label: Payments & Refunds
+        href: /contact/payments

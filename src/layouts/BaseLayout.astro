@@ -1,72 +1,138 @@
 ---
+import { getEntry } from "astro:content";
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNavigation from "../components/SiteNavigation.astro";
 import { withBase } from "../lib/withBase";
+import "../styles/template-fallback.css";
 
 interface Props {
   title: string;
   description: string;
+  bodyClass?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, bodyClass = "hero-gradient-surface" } = Astro.props;
+const navigation = await getEntry("navigation", "menu");
+const footer = await getEntry("footer", "main");
+
+if (!navigation) {
+  throw new Error("Missing navigation content entry.");
+}
+
+if (!footer) {
+  throw new Error("Missing footer content entry.");
+}
 ---
 
 <!doctype html>
-<html lang="en">
+<html class="dark" lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Lexend:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config" is:inline>
+      window.tailwind = window.tailwind || {};
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed": "#ffdf94",
+              "surface-tint": "#f5bf00",
+              "primary-container": "#ffc700",
+              "on-tertiary": "#2f3131",
+              "tertiary-container": "#cecfcf",
+              "inverse-on-surface": "#303030",
+              "on-secondary-fixed": "#231b00",
+              "tertiary-fixed": "#e2e2e2",
+              primary: "#ffe9b9",
+              "on-primary": "#3e2e00",
+              "surface-dim": "#131313",
+              surface: "#131313",
+              "on-secondary-fixed-variant": "#574500",
+              "outline-variant": "#4f4632",
+              "surface-bright": "#393939",
+              "on-primary-fixed-variant": "#594400",
+              "on-error": "#690005",
+              "inverse-surface": "#e2e2e2",
+              "on-background": "#e2e2e2",
+              "inverse-primary": "#765b00",
+              "primary-fixed-dim": "#f5bf00",
+              "on-secondary-container": "#624e00",
+              "on-surface-variant": "#d2c5ab",
+              background: "#131313",
+              "on-secondary": "#3c2f00",
+              error: "#ffb4ab",
+              "secondary-fixed-dim": "#eec209",
+              tertiary: "#ebebeb",
+              "surface-container-lowest": "#0e0e0e",
+              "surface-container": "#1f1f1f",
+              "error-container": "#93000a",
+              "on-primary-container": "#6e5400",
+              "on-tertiary-fixed-variant": "#454747",
+              "tertiary-fixed-dim": "#c6c6c7",
+              "surface-container-low": "#1b1b1b",
+              "secondary-container": "#ebbf01",
+              "on-surface": "#e2e2e2",
+              "surface-container-high": "#2a2a2a",
+              outline: "#9b9078",
+              "surface-container-highest": "#353535",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-primary-fixed": "#251a00",
+              "surface-variant": "#353535",
+              "on-error-container": "#ffdad6",
+              "secondary-fixed": "#ffe084",
+              "on-tertiary-container": "#575858",
+              secondary: "#ffdd74"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            fontFamily: {
+              "label-md": ["Space Grotesk", "sans-serif"],
+              "body-lg": ["Lexend", "sans-serif"],
+              "headline-lg": ["Lexend", "sans-serif"],
+              "display-lg": ["Space Grotesk", "sans-serif"]
+            },
+            fontSize: {
+              "label-md": ["1rem", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "500" }],
+              "body-lg": ["1rem", { lineHeight: "1.5", fontWeight: "400" }],
+              "headline-lg": ["2rem", { lineHeight: "1.2", fontWeight: "600" }],
+              "display-lg": ["3.5rem", { lineHeight: "1.1", fontWeight: "700" }]
+            }
+          }
+        }
+      };
+    </script>
+    <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
-  <body>
-    <div class="site-shell">
-      <header class="site-header">
-        <a class="brand" href={withBase("/")}>Kangas Basketball Club</a>
-        <nav class="site-nav" aria-label="Primary">
-          <a href={withBase("/")}>Home</a>
-          <a href={withBase("/news/")}>News</a>
-        </nav>
-      </header>
-      <main>
-        <slot />
-      </main>
-      <footer class="site-footer">
-        <p>Kangas Community Basketball Club</p>
-        <p>Built with Astro, Markdown content collections, and Pages CMS.</p>
-      </footer>
-    </div>
+  <body class={`bg-background text-on-surface font-body-lg ${bodyClass}`}>
+    <input class="hidden" id="mobile-nav-toggle" type="checkbox" />
+    <SiteNavigation brand={navigation.data.brand} items={navigation.data.items} />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter footer={footer.data} />
   </body>
 </html>
 
 <style is:global>
-  :root {
-    --bg: #f5f0e8;
-    --surface: rgba(255, 252, 247, 0.82);
-    --surface-strong: #fffaf2;
-    --text: #112033;
-    --muted: #526174;
-    --line: rgba(17, 32, 51, 0.12);
-    --accent: #dc5f2d;
-    --accent-deep: #8f2d14;
-    --accent-soft: #ffd9bf;
-    --ink-soft: #183b63;
-    --shadow: 0 24px 60px rgba(17, 32, 51, 0.12);
-    --radius: 24px;
-    --radius-sm: 16px;
-    --content-width: 1120px;
-  }
-
   * {
     box-sizing: border-box;
-  }
-
-  html {
-    font-family: "Avenir Next", "Segoe UI", sans-serif;
-    background:
-      radial-gradient(circle at top left, rgba(220, 95, 45, 0.16), transparent 28%),
-      radial-gradient(circle at top right, rgba(24, 59, 99, 0.14), transparent 24%),
-      linear-gradient(180deg, #f8f3ec 0%, #f0e7db 100%);
-    color: var(--text);
-    scroll-behavior: smooth;
   }
 
   body {
@@ -80,145 +146,171 @@ const { title, description } = Astro.props;
   }
 
   img {
-    max-width: 100%;
     display: block;
+    max-width: 100%;
   }
 
-  .site-shell {
-    width: min(calc(100% - 2rem), var(--content-width));
-    margin: 0 auto;
-    padding: 1rem 0 3rem;
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 
-  .site-header,
-  .site-footer {
+  .skew-fix {
+    transform: skewX(10deg);
+  }
+
+  .parallelogram {
+    transform: skewX(-10deg);
+  }
+
+  .hero-gradient-surface {
+    background-color: #131313;
+    background-image:
+      radial-gradient(circle at top left, rgba(255, 199, 0, 0.22), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(255, 223, 148, 0.12), transparent 30%);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: 100% 110vh;
+  }
+
+  .divider-angle-fill,
+  .divider-angle-fill-reverse {
+    position: absolute;
+    inset: 0;
+  }
+
+  .divider-angle-fill {
+    clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .divider-angle-fill-reverse {
+    clip-path: polygon(0 0, 100% 50%, 100% 100%, 0 100%);
+  }
+
+  .section-wrap {
+    width: 100%;
+    max-width: 1536px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .site-header-inner {
     display: flex;
+    width: 100%;
+    max-width: 1536px;
+    height: 5rem;
+    min-height: 5rem;
+    flex-shrink: 0;
+    margin-inline: auto;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+    padding-inline: 1.5rem;
   }
 
-  .site-header {
-    position: sticky;
-    top: 1rem;
-    z-index: 10;
-    margin-bottom: 2rem;
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: rgba(255, 250, 242, 0.86);
-    backdrop-filter: blur(16px);
-    box-shadow: var(--shadow);
-  }
-
-  .brand {
-    font-weight: 800;
-    letter-spacing: 0.02em;
-  }
-
-  .site-nav {
-    display: flex;
-    gap: 1rem;
-    color: var(--muted);
-  }
-
-  .site-nav a:hover,
-  .site-nav a:focus-visible,
-  .brand:hover,
-  .brand:focus-visible {
-    color: var(--accent-deep);
-  }
-
-  .site-footer {
-    margin-top: 4rem;
-    padding: 1rem 0 0;
-    border-top: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.95rem;
-  }
-
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent-deep);
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-
-  .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    font-weight: 700;
+  .cta-primary-button,
+  .cta-secondary-button,
+  .cta-tertiary-button {
     transition:
-      transform 180ms ease,
       background-color 180ms ease,
-      color 180ms ease,
-      border-color 180ms ease;
+      border-color 180ms ease,
+      color 180ms ease;
   }
 
-  .button:hover,
-  .button:focus-visible {
-    transform: translateY(-2px);
+  .cta-primary-button {
+    background: #ffc700;
+    color: #171717;
   }
 
-  .button-primary {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 18px 30px rgba(220, 95, 45, 0.22);
+  .cta-primary-button:hover,
+  .cta-primary-button:focus-visible {
+    background: #fde047;
+    outline: none;
   }
 
-  .button-secondary {
-    border-color: var(--line);
-    background: rgba(255, 255, 255, 0.52);
-    color: var(--ink-soft);
+  .cta-secondary-button {
+    border: 1px solid #171717;
+    background: #171717;
+    color: #ffffff;
   }
 
-  .section-title {
-    margin: 0 0 0.8rem;
-    font-size: clamp(1.8rem, 3vw, 2.8rem);
-    line-height: 1.05;
+  .cta-secondary-button:hover,
+  .cta-secondary-button:focus-visible {
+    border-color: #ffc700;
+    background: #ffc700;
+    color: #171717;
+    outline: none;
   }
 
-  .section-copy {
-    margin: 0;
-    max-width: 62ch;
-    color: var(--muted);
-    font-size: 1.05rem;
-    line-height: 1.7;
+  .cta-tertiary-button {
+    border: 1px solid #171717;
+    background: transparent;
+    color: #171717;
   }
 
-  .panel {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--surface);
-    box-shadow: var(--shadow);
+  .cta-tertiary-button:hover,
+  .cta-tertiary-button:focus-visible {
+    border-color: #171717;
+    background: #171717;
+    color: #ffffff;
+    outline: none;
   }
 
-  @media (max-width: 720px) {
-    .site-header,
-    .site-footer {
-      flex-direction: column;
-      align-items: flex-start;
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 24;
+  }
+
+  .material-symbols-outlined.timeline-featured-icon {
+    color: #ffc700;
+    font-variation-settings: "FILL" 1, "wght" 700, "GRAD" 0, "opsz" 24;
+  }
+
+  .prose-content {
+    color: #3f3f46;
+    line-height: 1.8;
+  }
+
+  .prose-content h2,
+  .prose-content h3 {
+    margin-top: 2rem;
+    color: #18181b;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  .prose-content p,
+  .prose-content ul,
+  .prose-content ol {
+    margin-top: 1rem;
+  }
+
+  .prose-content a {
+    color: #6e5400;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (min-width: 768px) {
+    .section-wrap,
+    .site-header-inner {
+      padding-inline: 2.5rem;
     }
+  }
 
-    .site-header {
-      border-radius: 28px;
+  @media (min-width: 1024px) {
+    .section-wrap,
+    .site-header-inner {
+      padding-inline: 4rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .section-wrap,
+    .site-header-inner {
+      padding-inline: 5rem;
     }
   }
 </style>

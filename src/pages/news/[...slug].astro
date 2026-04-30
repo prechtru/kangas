@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import PageHeader from "../../components/PageHeader.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -13,76 +14,31 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+const formattedDate = entry.data.publishDate.toLocaleDateString("en-AU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric"
+});
 ---
 
-<BaseLayout title={`${entry.data.title} | Kangas Community Basketball Club`} description={entry.data.excerpt}>
-  <article class="post-shell panel">
-    <div class="post-meta">
-      <span>{entry.data.category}</span>
-      <time datetime={entry.data.publishDate.toISOString()}>
-        {entry.data.publishDate.toLocaleDateString("en-AU", {
-          day: "numeric",
-          month: "long",
-          year: "numeric"
-        })}
-      </time>
-    </div>
-
-    <h1>{entry.data.title}</h1>
-    <p class="post-excerpt">{entry.data.excerpt}</p>
-    <p class="post-author">By {entry.data.author}</p>
-
-    <div class="post-body">
-      <Content />
-    </div>
-  </article>
+<BaseLayout title={`${entry.data.title} | Nunawading Kangas`} description={entry.data.excerpt}>
+  <div class="hero-gradient-surface min-h-screen">
+    <PageHeader eyebrow={entry.data.category} title={entry.data.title} summary={entry.data.excerpt} />
+    <section class="relative bg-tertiary-fixed py-10 pb-24 text-surface md:py-12 md:pb-28">
+      <div class="section-wrap">
+        <article class="bg-white p-6 shadow-sm md:p-10">
+          <div class="flex flex-col gap-2 text-sm font-black uppercase tracking-[0.18em] text-[#765b00] md:flex-row md:items-center md:justify-between">
+            <span>By {entry.data.author}</span>
+            <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
+          </div>
+          <div class="prose-content mt-8 max-w-3xl">
+            <Content />
+          </div>
+        </article>
+      </div>
+      <div class="absolute inset-x-0 -bottom-px h-[calc(4rem+2px)] bg-tertiary-fixed">
+        <div class="divider-angle-fill-reverse bg-primary-container"></div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
-
-<style>
-  .post-shell {
-    padding: clamp(1.5rem, 4vw, 3rem);
-  }
-
-  .post-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    color: var(--accent-deep);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.78rem;
-    font-weight: 800;
-  }
-
-  h1 {
-    margin: 1rem 0 0.75rem;
-    max-width: 18ch;
-    font-size: clamp(2.4rem, 7vw, 4.8rem);
-    line-height: 0.98;
-    letter-spacing: -0.04em;
-  }
-
-  .post-excerpt,
-  .post-author,
-  .post-body :global(p),
-  .post-body :global(li) {
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  .post-body {
-    margin-top: 2rem;
-    max-width: 72ch;
-  }
-
-  .post-body :global(h2),
-  .post-body :global(h3) {
-    margin-top: 2rem;
-  }
-
-  @media (max-width: 720px) {
-    .post-meta {
-      flex-direction: column;
-    }
-  }
-</style>

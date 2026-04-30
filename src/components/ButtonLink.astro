@@ -1,0 +1,22 @@
+---
+import { withBase } from "../lib/withBase";
+
+interface Props {
+  href: string;
+  label: string;
+  variant?: "primary" | "secondary" | "tertiary";
+  size?: "md" | "lg";
+}
+
+const { href, label, variant = "primary", size = "md" } = Astro.props;
+const variantClass = {
+  primary: "cta-primary-button",
+  secondary: "cta-secondary-button",
+  tertiary: "cta-tertiary-button"
+}[variant];
+const sizeClass = size === "lg" ? "px-10 py-4 text-xl" : "px-6 py-3 text-base";
+---
+
+<a class={`parallelogram inline-flex whitespace-nowrap ${variantClass} ${sizeClass}`} href={withBase(href)}>
+  <span class="skew-fix block whitespace-nowrap font-black italic uppercase tracking-wide">{label}</span>
+</a>
