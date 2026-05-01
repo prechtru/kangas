@@ -53,15 +53,15 @@ const dateParts = (date: Date) => ({
                 <span>{date.month}</span>
                 <span>{date.year}</span>
               </div>
-              <span class="mt-2 block text-base font-bold uppercase tracking-[0.16em] text-zinc-500">By {entry.data.author}</span>
             </div>
             <div class="hidden md:col-start-2 md:block"></div>
-            <div class={`bg-white p-6 ${isFeatured ? "shadow-[0_0_0_2px_rgba(255,199,0,0.95),0_16px_40px_rgba(245,191,0,0.22)]" : "shadow-sm"} ${isRight ? "md:col-start-3" : "md:col-start-1 md:row-start-1"}`}>
-              <span class="mb-1 block text-sm font-bold uppercase tracking-widest text-zinc-400">{entry.data.category}</span>
-              <h3 class="font-headline-lg text-2xl font-black uppercase">{entry.data.title}</h3>
-              <p class="mt-3 max-w-3xl text-base leading-6 text-zinc-600">{entry.data.excerpt}</p>
-              <div class="mt-5 flex justify-end">
-                <ButtonLink href={`/news/${entry.slug}/`} label="Read more" variant="tertiary" />
+            <div class={`bg-white p-5 ${isFeatured ? "shadow-[0_0_0_2px_rgba(255,199,0,0.95),0_16px_40px_rgba(245,191,0,0.22)]" : "shadow-sm"} ${isRight ? "md:col-start-3" : "md:col-start-1 md:row-start-1"}`}>
+              <span class="mb-1 block text-sm font-bold uppercase tracking-widest text-[#765b00]">{entry.data.category}</span>
+              <h3 class="font-headline-lg text-[1.2rem] font-black uppercase leading-tight">{entry.data.title}</h3>
+              <span class="mt-2 block text-sm italic text-zinc-500">By {entry.data.author}</span>
+              <p class="mt-3 max-w-3xl text-sm leading-6 text-zinc-600">{entry.data.excerpt}</p>
+              <div class="mt-4 flex justify-end">
+                <ButtonLink href={`/news/${entry.slug}/`} label="Read more" variant="tertiary" size="sm" />
               </div>
             </div>
           </article>

@@ -1,5 +1,6 @@
 ---
 import { withBase } from "../lib/withBase";
+import { externalLinkAttrs } from "../lib/linkAttrs";
 
 interface NavChild {
   label: string;
@@ -26,18 +27,18 @@ const { brand, items } = Astro.props;
 
 <nav class="fixed top-0 z-50 w-full hero-gradient-surface backdrop-blur-sm">
   <div class="site-header-inner">
-    <a class="font-black text-yellow-400" href={withBase(brand.href)}>{brand.label}</a>
+    <a class="font-black text-yellow-400" href={withBase(brand.href)} {...externalLinkAttrs(brand.href)}>{brand.label}</a>
     <div class="hidden items-center gap-3 lg:flex">
       {items.map((item) => (
         <div class="desktop-nav-group relative">
-          <a class="nav-link tracking-tighter uppercase" data-label={item.label} href={withBase(item.href)}>
+          <a class="nav-link tracking-tighter uppercase" data-label={item.label} href={withBase(item.href)} {...externalLinkAttrs(item.href)}>
             <span>{item.label}</span>
           </a>
           {item.children && item.children.length > 0 && (
-            <div class="desktop-subnav-shell absolute left-0 top-full pt-0">
+            <div class={`desktop-subnav-shell absolute top-full pt-0 ${item.label === "Contact" ? "right-0" : "left-0"}`}>
               <div class="desktop-subnav min-w-[220px] p-2">
                 {item.children.map((child) => (
-                  <a class="block text-base font-bold uppercase" href={withBase(child.href)}>{child.label}</a>
+                  <a class="block text-base font-bold uppercase" href={withBase(child.href)} {...externalLinkAttrs(child.href)}>{child.label}</a>
                 ))}
               </div>
             </div>
@@ -65,23 +66,23 @@ const { brand, items } = Astro.props;
   id="mobile-drawer"
 >
   <div class="site-header-inner">
-    <a class="font-black text-surface" href={withBase(brand.href)}>{brand.label}</a>
+    <a class="font-black text-surface" href={withBase(brand.href)} {...externalLinkAttrs(brand.href)}>{brand.label}</a>
     <label aria-label="Close navigation menu" class="drawer-close-button flex cursor-pointer items-center justify-center" for="mobile-nav-toggle">
       <span class="drawer-icon" aria-hidden="true"><span></span><span></span><span></span></span>
     </label>
   </div>
   <div class="drawer-menu grid grid-cols-1 content-start gap-4 px-6 pb-10 pt-8 md:grid-cols-2 md:px-10 lg:px-16 xl:px-20">
     {items.map((item) => (
-      <div class={`drawer-card ${item.label === "Contact" ? "md:col-span-2" : ""}`}>
-        <div>
-          {item.kicker && <span class="drawer-card-kicker">{item.kicker}</span>}
-          <h3 class="drawer-card-title">{item.label}</h3>
+      item.children && item.children.length > 0 ? (
+        <div class={`drawer-card ${item.label === "Contact" ? "md:col-span-2" : ""}`}>
+          <span class="drawer-card-kicker">{item.label}</span>
+          <div class="drawer-card-links">
+            {item.children.map((child) => <a class="drawer-card-link" href={withBase(child.href)} {...externalLinkAttrs(child.href)}>{child.label}</a>)}
+          </div>
         </div>
-        <div class="drawer-card-links">
-          <a class="drawer-card-link" href={withBase(item.href)}>{item.label}</a>
-          {item.children?.map((child) => <a class="drawer-card-link" href={withBase(child.href)}>{child.label}</a>)}
-        </div>
-      </div>
+      ) : (
+        <a class="drawer-card-link drawer-home-link" href={withBase(item.href)} {...externalLinkAttrs(item.href)}>{item.label}</a>
+      )
     ))}
   </div>
 </aside>
@@ -301,22 +302,10 @@ const { brand, items } = Astro.props;
     color: #171717;
   }
 
-  .drawer-card-title {
-    position: relative;
-    z-index: 1;
-    color: #171717;
-    font-family: Lexend, sans-serif;
-    font-size: 1rem;
-    font-weight: 800;
-    line-height: 1.1;
-    text-transform: uppercase;
-  }
-
   .drawer-card-kicker {
     position: relative;
     z-index: 1;
     display: block;
-    margin-bottom: 0.35rem;
     color: rgba(110, 84, 0, 0.8);
     font-size: 0.68rem;
     font-weight: 700;
@@ -348,8 +337,18 @@ const { brand, items } = Astro.props;
       color 180ms ease;
   }
 
+  .drawer-home-link {
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(23, 23, 23, 0.12);
+    background: rgba(255, 255, 255, 0.78);
+    min-height: 3rem;
+  }
+
   .drawer-card-link:hover,
-  .drawer-card-link:focus-visible {
+  .drawer-card-link:focus-visible,
+  .drawer-home-link:hover,
+  .drawer-home-link:focus-visible {
     background: #ffc700;
     color: #171717;
     outline: none;
