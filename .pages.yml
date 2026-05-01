@@ -1,19 +1,13 @@
 media:
-  input: public/uploads
-  output: /uploads
+  input: public
+  output: /
 
 content:
-  - name: pages
-    label: Pages
-    type: collection
-    path: src/content/pages
-    filename:
-      template: "{primary}.md"
-      field: false
+  - name: homepage
+    label: Homepage hero
+    type: file
+    path: src/content/pages/home.md
     format: yaml-frontmatter
-    view:
-      primary: title
-      fields: [title]
     fields:
       - name: title
         label: Title
@@ -184,16 +178,10 @@ content:
         type: string
 
   - name: age-groups
-    label: Age groups
-    type: collection
-    path: src/content/age-groups
-    filename:
-      template: "{primary}.yml"
-      field: false
+    label: Age groups page
+    type: file
+    path: src/content/age-groups/main.yml
     format: yaml
-    view:
-      primary: seasonLabel
-      fields: [title, seasonLabel]
     fields:
       - name: title
         label: Title
@@ -226,16 +214,10 @@ content:
             type: string
 
   - name: schedules
-    label: Schedules
-    type: collection
-    path: src/content/schedules
-    filename:
-      template: "{primary}.yml"
-      field: false
+    label: Schedules page
+    type: file
+    path: src/content/schedules/main.yml
     format: yaml
-    view:
-      primary: title
-      fields: [title, eyebrow]
     fields:
       - name: title
         label: Title

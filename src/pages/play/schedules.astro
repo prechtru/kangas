@@ -4,7 +4,7 @@ import PageHeader from "../../components/PageHeader.astro";
 import ScheduleGrid from "../../components/ScheduleGrid.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const page = await getEntry("schedules", "winter-2026");
+const page = await getEntry("schedules", "main");
 
 if (!page) {
   throw new Error("Missing schedule content entry.");

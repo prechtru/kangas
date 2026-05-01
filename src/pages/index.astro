@@ -6,7 +6,7 @@ import NewsTimeline from "../components/NewsTimeline.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const home = await getEntry("pages", "home");
-const ageGroups = await getEntry("age-groups", "winter-2026");
+const ageGroups = await getEntry("age-groups", "main");
 
 if (!home) {
   throw new Error("Missing home page content entry.");

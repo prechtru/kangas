@@ -72,7 +72,7 @@ const { brand, items } = Astro.props;
     </label>
   </div>
   <div class="drawer-menu grid grid-cols-1 content-start gap-4 px-6 pb-10 pt-8 md:grid-cols-2 md:px-10 lg:px-16 xl:px-20">
-    {items.map((item) => (
+    {items.filter((item) => item.href !== "/").map((item) => (
       item.children && item.children.length > 0 ? (
         <div class={`drawer-card ${item.label === "Contact" ? "md:col-span-2" : ""}`}>
           <span class="drawer-card-kicker">{item.label}</span>
