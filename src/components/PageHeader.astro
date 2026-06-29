@@ -1,4 +1,6 @@
 ---
+import AngularDivider from "./design-system/AngularDivider.astro";
+
 interface Props {
   eyebrow: string;
   title: string;
@@ -7,7 +9,7 @@ interface Props {
 }
 
 const { eyebrow, title, summary, slantTo = "light" } = Astro.props;
-const slantClass = slantTo === "yellow" ? "bg-primary-container" : "bg-tertiary-fixed";
+const dividerFill: "yellow" | "light" = slantTo === "yellow" ? "yellow" : "light";
 ---
 
 <section class="relative overflow-hidden pb-16 pt-[5rem]">
@@ -20,7 +22,5 @@ const slantClass = slantTo === "yellow" ? "bg-primary-container" : "bg-tertiary-
       <p class="mt-4 max-w-2xl text-base leading-7 text-zinc-300">{summary}</p>
     </div>
   </div>
-  <div class="absolute inset-x-0 -bottom-[2px] h-[calc(4rem+4px)] bg-background">
-    <div class={`divider-angle-fill ${slantClass}`}></div>
-  </div>
+  <AngularDivider fill={dividerFill} />
 </section>

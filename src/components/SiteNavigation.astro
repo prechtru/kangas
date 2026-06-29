@@ -9,7 +9,7 @@ interface NavChild {
 
 interface NavItem {
   label: string;
-  href: string;
+  href?: string;
   kicker?: string;
   children?: NavChild[];
 }
@@ -31,9 +31,15 @@ const { brand, items } = Astro.props;
     <div class="hidden items-center gap-3 lg:flex">
       {items.map((item) => (
         <div class="desktop-nav-group relative">
-          <a class="nav-link tracking-tighter uppercase" data-label={item.label} href={withBase(item.href)} {...externalLinkAttrs(item.href)}>
-            <span>{item.label}</span>
-          </a>
+          {item.href ? (
+            <a class="nav-link tracking-tighter uppercase" data-label={item.label} href={withBase(item.href)} {...externalLinkAttrs(item.href)}>
+              <span>{item.label}</span>
+            </a>
+          ) : (
+            <button class="nav-link nav-parent-control tracking-tighter uppercase" data-label={item.label} type="button">
+              <span>{item.label}</span>
+            </button>
+          )}
           {item.children && item.children.length > 0 && (
             <div class={`desktop-subnav-shell absolute top-full pt-0 ${item.label === "Contact" ? "right-0" : "left-0"}`}>
               <div class="desktop-subnav min-w-[220px] p-2">
@@ -89,17 +95,25 @@ const { brand, items } = Astro.props;
 
 <style>
   .nav-link {
+    appearance: none;
+    background: transparent;
+    border: 0;
     position: relative;
     isolation: isolate;
     display: inline-grid;
     min-height: 2.75rem;
     align-items: center;
     padding: 0 0.75rem;
+    font: inherit;
     color: #d4d4d8;
     font-weight: 500;
     transition:
       background-color 180ms ease,
       color 180ms ease;
+  }
+
+  .nav-parent-control {
+    cursor: default;
   }
 
   .nav-link::after {

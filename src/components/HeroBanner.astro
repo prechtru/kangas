@@ -1,4 +1,5 @@
 ---
+import AngularDivider from "./design-system/AngularDivider.astro";
 import ButtonLink from "./ButtonLink.astro";
 
 interface Props {
@@ -43,7 +44,5 @@ const [mainHeadline, supportingHeadline] = headline.split("|").map((part) => par
   <div class="pointer-events-none absolute -bottom-10 -right-5 select-none text-[15rem] font-black italic text-zinc-950/50">
     {backgroundWord}
   </div>
-  <div class="absolute inset-x-0 -bottom-px h-[calc(4rem+2px)] bg-background">
-    <div class="divider-angle-fill bg-tertiary-fixed"></div>
-  </div>
+  <AngularDivider fill="light" />
 </section>

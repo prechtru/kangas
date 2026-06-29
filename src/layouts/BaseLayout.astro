@@ -175,20 +175,6 @@ if (!footer) {
     background-size: 100% 110vh;
   }
 
-  .divider-angle-fill,
-  .divider-angle-fill-reverse {
-    position: absolute;
-    inset: 0;
-  }
-
-  .divider-angle-fill {
-    clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
-  }
-
-  .divider-angle-fill-reverse {
-    clip-path: polygon(0 0, 100% 50%, 100% 100%, 0 100%);
-  }
-
   .section-wrap {
     width: 100%;
     max-width: 1536px;
@@ -267,22 +253,174 @@ if (!footer) {
   }
 
   .prose-content {
+    width: 100%;
     color: #3f3f46;
     line-height: 1.8;
   }
 
-  .prose-content h2,
+  .prose-content h2 {
+    display: inline-block;
+    margin-top: 2rem;
+    border-left: 0.35rem solid #ffc700;
+    padding: 0.35rem 0 0.35rem 0.85rem;
+    color: #18181b;
+    font-size: 1.25rem;
+    font-style: italic;
+    font-weight: 900;
+    line-height: 1.75rem;
+    text-transform: uppercase;
+  }
+
+  .prose-content h2:first-child {
+    margin-top: 0;
+  }
+
   .prose-content h3 {
     margin-top: 2rem;
-    color: #18181b;
+    color: #765b00;
+    font-size: 0.95rem;
+    font-style: normal;
     font-weight: 900;
+    letter-spacing: 0.16em;
+    line-height: 1.35;
     text-transform: uppercase;
   }
 
   .prose-content p,
   .prose-content ul,
-  .prose-content ol {
+  .prose-content ol,
+  .prose-content table {
     margin-top: 1rem;
+  }
+
+  .prose-content ul,
+  .prose-content ol {
+    padding-left: 1.5rem;
+  }
+
+  .prose-content ul {
+    list-style: disc;
+  }
+
+  .prose-content ol {
+    list-style: decimal;
+  }
+
+  .prose-content li {
+    padding-left: 0.25rem;
+  }
+
+  .prose-content li + li {
+    margin-top: 0.5rem;
+  }
+
+  .prose-content li::marker {
+    color: #765b00;
+    font-weight: 900;
+  }
+
+  .prose-content .life-members-list {
+    display: grid;
+    width: 100%;
+    padding-left: 0;
+    gap: 0.75rem;
+    list-style: none;
+  }
+
+  .prose-content .life-members-list li {
+    border: 1px solid rgba(23, 23, 23, 0.1);
+    background: #ffffff;
+    padding: 0.8rem 1rem;
+    color: #303030;
+    font-weight: 800;
+  }
+
+  .prose-content .life-members-list li + li {
+    margin-top: 0;
+  }
+
+  @media (min-width: 640px) {
+    .prose-content .life-members-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .prose-content .life-members-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .prose-content table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 42rem;
+    color: #303030;
+  }
+
+  .prose-content th,
+  .prose-content td {
+    border: 1px solid rgba(23, 23, 23, 0.1);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .prose-content th {
+    background: #e2e2e2;
+    color: #171717;
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .prose-content td {
+    background: #ffffff;
+  }
+
+  @media (max-width: 767px) {
+    .prose-content table {
+      display: block;
+      min-width: 0;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    .prose-content thead {
+      display: none;
+    }
+
+    .prose-content tbody {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .prose-content tr {
+      display: block;
+      overflow: hidden;
+      border: 1px solid rgba(23, 23, 23, 0.12);
+      background: #ffffff;
+      box-shadow: 0 12px 32px rgba(23, 23, 23, 0.06);
+    }
+
+    .prose-content td {
+      display: block;
+      border: 0;
+      background: transparent;
+      padding: 0.8rem 1rem;
+    }
+
+    .prose-content td:first-child {
+      background: #e2e2e2;
+      color: #171717;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .prose-content td + td {
+      border-top: 1px solid rgba(23, 23, 23, 0.08);
+    }
   }
 
   .prose-content a {
@@ -293,10 +431,24 @@ if (!footer) {
     text-underline-offset: 0.25em;
   }
 
+  .prose-content img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(23, 23, 23, 0.1);
+    background: #ffffff;
+  }
+
   @media (min-width: 768px) {
     .section-wrap,
     .site-header-inner {
       padding-inline: 2.5rem;
+    }
+
+    .prose-content h2 {
+      font-size: 1.5rem;
+      line-height: 2rem;
     }
   }
 

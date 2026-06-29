@@ -5,11 +5,12 @@ import { externalLinkAttrs } from "../lib/linkAttrs";
 interface Props {
   href: string;
   label: string;
+  ariaLabel?: string;
   variant?: "primary" | "secondary" | "tertiary";
   size?: "sm" | "md" | "lg";
 }
 
-const { href, label, variant = "primary", size = "md" } = Astro.props;
+const { href, label, ariaLabel, variant = "primary", size = "md" } = Astro.props;
 const variantClass = {
   primary: "cta-primary-button",
   secondary: "cta-secondary-button",
@@ -22,6 +23,6 @@ const sizeClass = {
 }[size];
 ---
 
-<a class={`parallelogram inline-flex whitespace-nowrap ${variantClass} ${sizeClass}`} href={withBase(href)} {...externalLinkAttrs(href)}>
+<a class={`parallelogram inline-flex whitespace-nowrap ${variantClass} ${sizeClass}`} href={withBase(href)} aria-label={ariaLabel} {...externalLinkAttrs(href)}>
   <span class="skew-fix block whitespace-nowrap font-black italic uppercase tracking-wide">{label}</span>
 </a>

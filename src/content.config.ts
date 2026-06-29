@@ -45,7 +45,9 @@ const navigation = defineCollection({
   schema: z.object({
     brand: linkSchema,
     items: z.array(
-      linkSchema.extend({
+      z.object({
+        label: z.string(),
+        href: z.string().optional(),
         kicker: z.string().optional(),
         children: z.array(linkSchema).optional()
       })
@@ -125,11 +127,26 @@ const schedules = defineCollection({
   })
 });
 
+const childContent = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    metaTitle: z.string().optional(),
+    metaDescription: z.string(),
+    eyebrow: z.string(),
+    summary: z.string(),
+    section: z.enum(["play", "club", "get-involved", "contact"]),
+    slug: z.string().optional(),
+    order: z.number().optional()
+  })
+});
+
 export const collections = {
   pages,
   news,
   navigation,
   footer,
   "age-groups": ageGroups,
-  schedules
+  schedules,
+  "child-content": childContent
 };

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import PageHeader from "../../components/PageHeader.astro";
+import AngularDivider from "../../components/design-system/AngularDivider.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -31,14 +32,12 @@ const formattedDate = entry.data.publishDate.toLocaleDateString("en-AU", {
             <span>By {entry.data.author}</span>
             <time datetime={entry.data.publishDate.toISOString()}>{formattedDate}</time>
           </div>
-          <div class="prose-content mt-8 max-w-3xl">
+          <div class="prose-content mt-8">
             <Content />
           </div>
         </article>
       </div>
-      <div class="absolute inset-x-0 -bottom-px h-[calc(4rem+2px)] bg-tertiary-fixed">
-        <div class="divider-angle-fill-reverse bg-primary-container"></div>
-      </div>
+      <AngularDivider fill="yellow" direction="reverse" from="light" />
     </section>
   </div>
 </BaseLayout>
